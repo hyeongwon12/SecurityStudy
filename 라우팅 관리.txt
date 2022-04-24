@@ -1,0 +1,80 @@
+학습내용
+- 네트워크 기본 이해
+- Ethernet 기술 이해
+- 네트워크 장비 이해
+
+학습목표
+- 네트워크 기술 기본 용어들을 설명할 수 있다.
+- Ethernet 기술 동작 방식에 대해 설명할 수 있다.
+- 네트워크 장비에 대해 동작방식을 설명할 수 있다.
+ 
+1. 정보 전송 방법
+ - Unicast, Broadcast, Multicast
+     1:1      1:all      1:many
+
+2. 정보 전송 모드
+-1) Simplex :
+-2) Duplex  : -half
+              -full
+Lan Card 설정의 Auto Negotiation
+: 인접 장비와 연결을 시작할 때 전송속도와 전소송 모드를 자동으로 결정하는 동작
+
+3. 정보 전송 범위
+ PAN : Personal      : 휴대용단말기등
+ LAN : Local         : 가까운 거리에서 유선 (사내망)
+ MAN : Metoripolitan : LAN보다 멀고 WAN 보다는 짧은 구간
+ WAN : Wide
+
+-LAN 구축 기술
+Ethernet    //     Token Ring  //   FDDI  //   ATM
+ 95%이상적용             기술초기 : 빠른 속도 지원
+ 저럼한 기술             고비용의 구축 부담
+ 10Gbps               16Mbps      100Mbps    600Mbps
+
+-Ethernet의 개요
+ CSMA/CD 방식으로 매체 Access
+
+ CSMA : Carrier Sense Multiple Access 반송파 감지 다중접근
+ CD   : Collision Detection 충돌감지
+-Ethernet의 기술방식
+ 물리적인 토폴로지로 버스형이나 스타형으로 적용되는 기술
+ 버스형, 스타형
+
+-연결장치
+ Repeater : 신호를 받아 더 높은 수준으로 재전송하여 신호가 더 먼 거리에 전송될 수 있도록 도와주는 중계기
+ 
+ Hub      : 신호의 재생 및 증폭기능을 수행하며 물리적인 거리 확장
+            신호재생, 네트워크 접속 호스트 수나 거리를 확장하여 구축
+ 
+ Bridge   : Collision으로 인한 네트워크 통신 불가능 문제를 줄이기 위한 장비
+            Hub에 메모리를 꽂아 포트별로 버퍼를 가질 수 있도록 하여 Collision을 나눔
+            MAC Address를 보고 메모리에 있는 MAC Address 테이블을 확인하여 목적지 포트로 전송하고 다른 포트로 보내지 않는 장비
+ (Learning - Forwarding - Filtering - Flooding)
+
+ Switch   : Bridge의 동작을 하드웨어 칩인 ASIC에 내장하여 그 역할만 전담하는 장비
+ 
+ Router   : Broadcast 신호를 차단하여 포트마다 Broadcast Domain을 나눌 수 있는 장비
+            Broadcast 신호가 많이 발생하면 네트워크 부하를 가중시킬 수 있는 원인이 되어 네트워크 성능이 떨어짐
+            멀티캐스트 신호도 차단
+            논리적인 주소정보를 이용해 서로 연결도 가능하도록 수행
+            서로 다른 기술 사이에서의 연결 가능
+            Switch로 구축된 LAN들을 연결하는 장비 
+
+-Ethernet 동작 특성
+
+Ethernet LAN : UTP케이블, 스타 토폴로지(외형)/버스 토폴로지(내부)
+전송 속도 : 10BasT 100BasT 1000BasT >>> 10Mbps 100Mbps 1000Mbps
+Baseband 방식으로 디지털신호 0과1전달
+T의 의미 : Twisted Pair, 100m 전송거리
+프로토콜 : CSMA/CD 알고리즘
+
+Collision Domain : 하나의 케이블을 여러 컴퓨터가 공유하고 하나의 컴퓨터만 통신가능
+                   두 대 이상의 컴퓨터가 통신을 시도하면 전송하는 데이터간에 충돌 발생
+                   Hub에 연결된 컴퓨터들은 같은 Collision Domain에 있음
+         Hub 1 - Bridge 4 - Switch 4 - Router 4
+
+Broadcast Domain : Broadcast 데이터를 수신할 수 있다면 같은 Broadcast Domain이 있음
+                   같은 Broadcast Domain이 같은 네트워크
+         Hub 1 - Bridge 1 - Switch 1 - Router 4
+
+

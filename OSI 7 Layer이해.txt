@@ -1,0 +1,96 @@
+학습내용 -OSI 7 Layer
+        -네트워크 3계층 모델
+        -LAN/WAN Protocol
+
+학습목표 -OSI 7 Layer 각 계층별로 설명할 수 있다.
+        -네트워크 3계층 모델에 대해 설명할 수 있다.
+        -LAN/WAN Protocol의 종류를 구분하여 설명할 수 있다.
+
+-Protocold의 개요-
+ 1)Protocol - 통신 단말기 사이에 정보를 전송하기 위한 통신규약 혹은 표준
+   (목적지 주소 - 출발지 주소 - Type/Lenght - Data - FCS )
+ 2)protocol의 종류:
+   OSI 7 Layer - TCP/IP - SPX/IPX - NetBios - AppleTalk - SNA-DECNet
+  국제표준단체에서 만들었냐? vs 업계를 주도하고 있는 한 기업에서 자신들이 제공하는 
+ 
+   
+ 1.피지컬 데이터링크 네트워크 트랜스포트 
+OSI 7 Layer
+ 
+ 1)개요 : OSI - Open System Interconnection)
+        -통신 네트워크로 구성된 컴퓨터가 어떻게 Data를 전송할 것인가에 대한 표준규약 또는 참조 모델
+        -국제 표준화 기구인 ISO에서 Open 시스템 간 원활한 정보교환을 위하여 7개의 계층을 가지는 Protocol 표준 제안
+        -OSI 7 Layer 또는 7계층모델 이라고부름
+
+목적 : 기본적인 하드웨어 또는 소프트웨어의 변경 없이 서로 다른 시스템 간에 개방 통신을 위한 것
+
+ 2)기능 : 각 계층의 Protocol은 하위 계층 Protocol의 기능을 이용하여 해당 계층을 실행하고, 그 결과를 상위계층에 제공
+
+7 - Application   : [Applicaitons를 위한 Network Process]
+                    통신 응용 프로그램 ( E-mail, HTTP, FTP, Telnet 등)
+
+6 - Presentation  : [데이터 표현의(Representation)]
+                    데이터의 표현 (코드변환, 구문변환, 이미지 JPEG GID MPEG등의 형식 정보 전송, 압축 암호화등)
+
+5 - Session       : [호스트 간(Interhost)의 통신]
+                    대화 (대상과 정보를 주고 받는 행위) 
+                    Session 확립 (Host와 Host 사이에서 각 Application사이의 연결)
+                    하나의 Session (Session이 끊어지지 않고 유지된 상태)
+
+4 - Transport     : [양단의 연결(End-to-End Connetctions)]
+                    양 호스트간의 전송 제어, 데이터 전송의 신뢰성 확보
+                    
+3 - Network       : [데이터 전달]
+                    호스트간의 경로 선택과 연결성 제공, 논리적 주소를 이용한 패킷의 라우팅, 데이터 전달을 위한 최적의 경로선택
+
+2 - Data Link     : [전송 매체의 접근]
+                    전송을 위한 데이터의 형식 결정, 매체 접근 방법(MAC)의 제어, 물리적 주소를 정함, LAN/WAN
+                    두 개의 SubLayer로 나눔 
+                     1.LLC(Logic Link Control) : 상위 Layer과 연결성, 논리적인 통로 제공
+                     2.MAC(Media Access Contral) : Media에 대한 접근 방법 제공, 물리적인 주소 사용, Frame을 byte로 나누어 전송
+
+1 - Physical      : [Bit의 전송]
+                    물리적 연결 구간의 전기적, 기계적 특징과 순서의 정의
+                    유-무선, 전기적-빛으로 사용자의 데이터가 0,1로 전송, 케이블( RS=232C, V.35, Cat5 등)
+                    장비와 장비 사이에 실제적인 전송
+
+Encapsulation과 De-Encapsulation
+  
+  Encapsulation    = 7 >> 1
+  De-Encapsulation = 1 >> 7 
+
+나와 상대방의 연결이 마치 각 Layer단위로 연결된 것처럼 보이는 연결 >> Transparent한 연결
+
+Protocol Data Unit
+ 
+ PDU계층 : Protocol 이용자 정보 나르기 위해 사용
+
+ Message - L7SW            - L5~L7 Application
+ Segmnet - L4SW            - :4 Transport (PORT)
+ Packet  - Routerm L3SW    - L3 Network   (IP)
+ Frame   - Breige, Switch  - L2 Data Link (MAC)
+ Bit     - Reapeater, Hub  - L1 Physical
+ 
+ 네트워크 3계층 개요
+
+ Core Layer - 코어 전용 스위치
+
+ Distribution Layer - 라우터, L3이상
+
+ Access Layer - 허브, 스위치
+
+LAN/WAN Protocol
+
+1) LAN Protocol
+   -MAC Address - Ethernet 기술에 사용되는 물리적 주소를
+                  48bits로 구성
+                   상위24Bit(제조업체 ID나 벤더 코드로 OUI라고도 부름)
+                   하위24Bit(벤더에 의해 관리되는영역)
+2) WAN Protocol - 전용회선 (PPP, HDLC)
+                  패킷교환망 (공중망, Frame Relay, ATM)
+                  회선교환망 (전화 교환망, ISDN망)
+
+    WAN 구성 요소 - DCE : 장비간 전송 속도를 동기화, 신호변환장치 이용 (CSU/DSU)
+                   DTE : DCE가 보내는 신호를 감지하여 속도를 결정  
+                   WAN 케이블 : DCE/DTE는 케이블이 결정하며 DCE에서 속도를 설정하지 않으면 Link를 사용할 수 없음
+
