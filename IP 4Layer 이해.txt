@@ -1,0 +1,156 @@
+학습내용 - TCP/IP 4Layer
+        - Transport Layer
+        - Internet Layer
+
+
+학습목표 - TCP/IP 4Layer를 각 계층별로 설명할 수 있다.
+        - Transport Layer의 TCP/UDP Protocol을 설명할 수 있다.
+        - Internet Layer의 IP/ICMP/ARP Protocol을 설명할 수 있다.
+
+
+
+TCP/IP  : Transmission Control Protocol/Internet Protocol
+ 
+ 4Layer [Applicaiton - Transport - Internet - Network Access]
+ OSI Layer  (5~7)         (4)         (3)         (1~2)
+
+ 
+ Applicaiton Layer   - HTTP, FTP           : 이용자의 데이터를 처리
+ 
+ Transport Layer     - TCP , UDP           : 데이터를 쪼개어 Segment를 만듦
+     Port번호 : Well-known Port, Registerd Port, Dynamic Port 
+     (대부분 목적지 Port로 사용, 원본 Port는 프로그램 실행 시점에 랜덤 Port 번호를 OS로부터 할당받음)
+ 
+ Internet Layer      - IP, ICMP, IGMP, ARP : Segment에 IP Header를 추가하여 Packet을 만듦
+ 
+ Network Access Layer- ATM, Ethernet       : Network Interface는 패킷을 Frame 단위로 만들어 LAN이나, WAN을 통해 목적지까지 전달
+     LAN과 WAN의 다양한 Protocol이 동작함, Ethernet이 사용되면 상위 연결정보는 TYPE으로 구분
+
+
+-TCP분석-
+ 
+ 1)개요: 목적지에 데이터를 전송하기 전에 사전 연결을 확립하고 데이터를 전달하는 신뢰성 있는 Protocol
+ 
+ 2)연결과정 :  연결확립(Establishing a Connetction) 
+              
+              TCP 연결 시작(Three Way Handshake) 
+              
+              TCP 연결 유지(TCP Windowing)  
+              
+              TCP 연결 해제 
+                
+                1.FIN 요청에 의한 정상 종료 : 
+                FIN은 쿠에 대기하고 있는 데이터를 모두 전송한 후에 종료, 데이터의 손실이 없음
+                
+                2.RST 메세지에 의한 비정삭적인 중단해제 : 
+                Host중 오류나 긴급한 문제로 TCP 세션을 종료해야 할 경우
+                Reset Segent를 생성하여 상대편에 전송하면, 회전종료 절차를 준수하지 않고 즉시 회선 해제
+
+
+ 3)TCP Header 분석 :
+
+    16bit Source Port Number       //        16bit Destination Port Number           -             =
+                          
+                          32bit Sequence Number                                      -TCP기본      = 
+                      
+                      32bit Acknowledgemnet Number                                   -Header:      =
+    
+    4bit Header Length, Reserved, URG, ACK, PSH, RST, SYN, FTN, 16bit Window Size    -20byte       =
+    
+    16bit TCP Checksum            //         16bit Urgent Pointer                    -             =TCP 
+                        
+                        Option(if any)(옵션(만약 어떤))                                             =MAX :
+                       
+                        Data(if any)(데이터(만약 어떤))                                             =60byte
+
+
+4)TCP 특징 :
+
+  1. 연결 지향 (Connection Oriented)의 신뢰성 있는 Protocol
+  2. 원활한 흐름제어 (Flow Control)
+  3. 순서검사 (Sequencing)
+  4. 응답 번호 (Acknowledgemnet Number)
+  5. 에러 검출
+  6. 패킷 복구 (Packet Recovery) : ACK를 받지 못한 모든 데이터를 보냄
+  7. Full Duplex 가상회선 제공으로 송신회선과 수신화선 분리
+
+
+
+-UDP분석-
+
+ 1)개요: 데이터 전송 시 사전 연결을 확립하지 않고, 목적지에 바로 데이터를 전달하는 Protocol
+         (목적지 컴퓨터가 꺼져 있어도 데이터를 전달하고, 응답신호를 기다리지 않아 전달에 대한 보장도 없음)
+
+ 2)UDP Header 분석 :
+
+   IP Header   UDP Header   Applicaiton Data
+    20byte       8byte
+
+    UDP Source Port          -      UDP Destination Port
+    (원본 포트 번호)                 (목적지 포트 번호)
+
+    UDP Total Lenght        -      16bit UDP Checksum
+    (UDP Header, 데이터필드 크기)    (UDP Header와 데이터 필드에 대한 계산된 Checksum, 에러 여부 체크)
+ 
+ 3)UDP 특징 :  
+            1. 비전달 보장성, 비신뢰성 (데이터 전달의 보장이 안됨)
+            
+            2. 최소 서비스 (어플리케이션 Protocol에 오버헤드가 적고 간단하게 구현될수 있는 전송서비스를 제공,
+                           Broadcast, Multicast를 집중적으로 이용하는 어플리 케이션 또는 탐색과 질의에 빠른
+                           응답을 요구하는 어플리케이션에 사용)
+            3.전송단위(Datagram)별로 전송
+
+
+-TCP와 UDP 비교-
+
+ 연결지향                   비연결형
+ Sequencing 지원            Sequencing 지원하지 않음
+ Error Control을 함         Error Control 하지 않음
+ Flow Control을 함          Flow Control 하지 않음
+ Unicast 전송               Unicast, Multicast ,Broadcast 전송
+ Full Duplex                Half Duplex
+ 데이터 전송                실시간 Traffic 전송(VoIP, Multmedia 등)
+
+-IP 분석-
+
+ 1)개요 : IP Address 기반으로 Network나 Host를 인지하며 목적지 주소로 패킷 전송
+          (커다란 패킷을 작은단위의 Frame으로 분할(Fragmentation)하여 전송하며, Frame의 크기는 각각다름
+          Layer 2로부터 받은 Frame을 재조립(Reassemble)하여 Layer 4로 보내며, Protocol ID 사용)
+    
+    IP Datagram의 처리 : 한 메세지가 여러 개의 패킷으로 나뉘어져 있어, 각 패킷은 서로 다른 경로, 보낸 순서와는 다른 순서로 도착될 수도 있음
+                        단지 패킷 배달만 할 뿐, 순서 재정렬은 TCP가 처리 
+
+ 2) IP Header 분석
+  
+  Ver,    Hlen,   Type of service,  Total Length 
+
+  Identification,   Flags,  Fragmentation Offset
+  
+  Time to live,  Protocol ID,   Header Checksum
+  
+                Source Address
+  
+             Destination Address
+  
+               Option, Padding
+  
+                    Data
+
+            20byte 12개의 필드로 구성
+
+ 
+-ICMP 분석-  Internet Control Message Protocol
+            TCP/IP 통신에서 연결상태를 보고하는 Protocol 
+  
+  ICMP 패킷 =   Type   -  Code   -   Checksum  -   Data
+              (에러 구분 및 보고)
+
+
+-ARP 분석-   Address Resolution Protocol
+            IP Address로부터 해당하는 H/W Address를 찾음
+
+   ARP Protocol의 동작은 같은 서브넷 내에서만 유효
+   Ethernet 프레임에 실려서(Encapsulation후) 전달
+   ARP는 두가지 메세지 ARP Request, ARP Reply를 사용
+
+ ARP 동작)
